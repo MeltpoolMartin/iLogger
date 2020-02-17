@@ -7,20 +7,17 @@
 //
 #include <iostream>
 #include <memory>
-#include "Logger.hpp"
+#include "LogHandler.hpp"
 
 
 int main()
 {
-    std::string loggerName = "Main";
-    std::string logLevel = "trace";
-    std::string pattern = "[%H:%M:%S %z] [thread %t] %v";
-    std::shared_ptr<iLogger> pLog(new Logger(loggerName, logLevel, pattern));
-//    pLog->createLogger();
-    if(pLog == nullptr)
-        return -1;
-    pLog->createLogger();
-    pLog->trace("First message");
+       
+    std::shared_ptr<iLogger> s_log;
+    
+    LogHandler logHandler;
+    s_log = logHandler.init();
+    s_log->trace("My first message");
     std::cout << "Press enter to exit" << std::endl;
     getchar();
 }
