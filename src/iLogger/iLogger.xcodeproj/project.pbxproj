@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5B8F999223FD469D0001651A /* LogHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F998F23FD469D0001651A /* LogHandler.cpp */; };
+		5B8F999323FD469D0001651A /* SpdlogHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5B8F999023FD469D0001651A /* SpdlogHandler.cpp */; };
 		5BA56B7823F8960500077D4F /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5BA56B7723F8960500077D4F /* main.cpp */; };
-		5BD883DD23F946D80046B1D9 /* Logger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5BD883DB23F946D80046B1D9 /* Logger.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -24,11 +25,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		5B8F998E23FD469D0001651A /* SpdlogHandler.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SpdlogHandler.hpp; sourceTree = "<group>"; };
+		5B8F998F23FD469D0001651A /* LogHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LogHandler.cpp; sourceTree = "<group>"; };
+		5B8F999023FD469D0001651A /* SpdlogHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SpdlogHandler.cpp; sourceTree = "<group>"; };
+		5B8F999123FD469D0001651A /* LogHandler.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LogHandler.hpp; sourceTree = "<group>"; };
 		5BA56B7423F8960500077D4F /* iLogger */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = iLogger; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BA56B7723F8960500077D4F /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		5BA56B7E23F8967200077D4F /* iLogger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = iLogger.h; sourceTree = "<group>"; };
-		5BD883DB23F946D80046B1D9 /* Logger.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Logger.cpp; sourceTree = "<group>"; };
-		5BD883DC23F946D80046B1D9 /* Logger.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Logger.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,10 +64,12 @@
 		5BA56B7623F8960500077D4F /* iLogger */ = {
 			isa = PBXGroup;
 			children = (
+				5B8F998F23FD469D0001651A /* LogHandler.cpp */,
+				5B8F999123FD469D0001651A /* LogHandler.hpp */,
+				5B8F999023FD469D0001651A /* SpdlogHandler.cpp */,
+				5B8F998E23FD469D0001651A /* SpdlogHandler.hpp */,
 				5BA56B7723F8960500077D4F /* main.cpp */,
 				5BA56B7E23F8967200077D4F /* iLogger.h */,
-				5BD883DB23F946D80046B1D9 /* Logger.cpp */,
-				5BD883DC23F946D80046B1D9 /* Logger.hpp */,
 			);
 			path = iLogger;
 			sourceTree = "<group>";
@@ -126,8 +131,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5B8F999323FD469D0001651A /* SpdlogHandler.cpp in Sources */,
 				5BA56B7823F8960500077D4F /* main.cpp in Sources */,
-				5BD883DD23F946D80046B1D9 /* Logger.cpp in Sources */,
+				5B8F999223FD469D0001651A /* LogHandler.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

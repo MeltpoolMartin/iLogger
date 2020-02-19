@@ -1,3 +1,10 @@
-.DS_Store
-src/.DS_Store
-src/iLogger/.DS_Store
+# General
+*.DS_Store
+
+#Xcode
+*.pbxproj
+*.xcuserstate
+*.xcbkptlist
+
+# Test Folder
+TestLogs/

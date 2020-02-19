@@ -8,7 +8,7 @@
 #include <iostream>
 #include <memory>
 #include "LogHandler.hpp"
-
+#include <chrono>
 
 int main()
 {
@@ -17,8 +17,10 @@ int main()
     
     LogHandler logHandler;
     s_log = logHandler.init();
-    s_log->trace("My first message");
-    std::cout << "Press enter to exit" << std::endl;
-    getchar();
+    for(int i=0; i < 1000; i++)
+    {
+        s_log->trace("Log message number " + std::to_string(i));
+        //std::this_thread::sleep_for(std::chrono::seconds(1));
+    }
+    return 0;
 }
-

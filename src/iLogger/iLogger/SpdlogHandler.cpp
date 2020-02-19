@@ -7,9 +7,9 @@
 //
 
 #include "SpdlogHandler.hpp"
+#include <chrono>
 
-
-SpdlogHandler::SpdlogHandler(const std::string &logName, const std::string &logFileName, const std::string &logFilePath, const std::string &logLevelConsole, const std::string &logLevelFile, const std::string &patternConsole, const std::string &patternFile)
+SpdlogHandler::SpdlogHandler(const std::string &logName, const std::string &logFileName, const std::string &logFileBasePath, const std::string &logLevelConsole, const std::string &logLevelFile, const std::string &patternConsole, const std::string &patternFile, unsigned int maxLogFiles, unsigned long maxFileSize)
 :
 iLogger(logName),
 m_sLogLevelConsole(logLevelConsole),
@@ -17,8 +17,11 @@ m_sLogLevelFile(logLevelFile),
 m_sPatternConsole(patternConsole),
 m_sPatternFile(patternFile),
 m_sFileName(logFileName),
-m_sFilePath(logFilePath)
+m_sFileBasePath(logFileBasePath),
+m_iMaxLogFiles(maxLogFiles),
+m_iMaxFileSize(maxFileSize)
 {
+    m_sFilePath = m_sFileBasePath + "/" + m_sFileName;
 }
 
 SpdlogHandler::~SpdlogHandler()
@@ -30,47 +33,44 @@ SpdlogHandler::~SpdlogHandler()
 iLogger::LogEntry SpdlogHandler::createLogger() {
         try
     {
-        auto consoleSink = std::make_shared<spdlog::sinks::stderr_color_sink_mt>();
-        auto consoleLogger = std::make_shared<spdlog::logger>(m_sLoggerName, consoleSink);
+        m_pSinkList.push_back(createConsoleSink());
+        m_pSinkList.push_back(createRotatingFileSink());
+        m_pSinkList.push_back((createDailyFileSink()));
+        auto multiLogger = std::make_shared<spdlog::logger>(m_sLoggerName, m_pSinkList.begin(), m_pSinkList.end());
         
-        consoleSink->set_level(stringToLogLevel(m_sLogLevelConsole));
-        consoleSink->set_pattern(m_sPatternConsole);
-        
-        consoleLogger->set_level(stringToLogLevel(m_sLogLevelConsole));
-        spdlog::register_logger(consoleLogger);
-        spdlog::set_default_logger(consoleLogger);
+        multiLogger->set_level(stringToLogLevel(m_sLogLevelConsole));
+        spdlog::register_logger(multiLogger);
+        spdlog::set_default_logger(multiLogger);
+        //spdlog::flush_every(std::chrono::seconds(1));
+        //Flush policy depending on log level to print relevant messages immediately
     }
     catch(const spdlog::spdlog_ex& error)
     {
-        return { "error", std::string("Log initialization failed") + error.what() };
+        return { "error", std::string("Initialization of " + m_sLoggerName + " failed; Error: ") + error.what() };
     }
-    return { "debug", "Log initialization was successful" };
+    return { "debug", "Initialization of " + m_sLoggerName + " was successful" };
 }
 
-//iLogger::LogEntry SpdlogHandler::setPattern(std::string pattern) {
-//    try
-//    {
-//        spdlog::set_pattern(pattern);
-//    }
-//    catch(const spdlog::spdlog_ex& error)
-//    {
-//        return { "error", std::string("Setting pattern failed") + error.what() };
-//    }
-//    return { "debug", "Setting pattern was successful" };
-//}
-//
-//
-//iLogger::LogEntry SpdlogHandler::setLogLevel(std::string level) {
-//     try
-//    {
-//        spdlog::set_level(stringToLogLevel(level));
-//    }
-//    catch(const spdlog::spdlog_ex& error)
-//    {
-//        return { "error", std::string("Setting pattern failed") + error.what() };
-//    }
-//    return { "debug", "Setting pattern was successful" };;
-//}
+spdlog::sink_ptr SpdlogHandler::createConsoleSink() {
+    auto consoleSink = std::make_shared<spdlog::sinks::stderr_color_sink_mt>();
+    consoleSink->set_level(stringToLogLevel(m_sLogLevelConsole));
+    consoleSink->set_pattern(m_sPatternConsole);
+    return consoleSink;
+}
+
+spdlog::sink_ptr SpdlogHandler::createRotatingFileSink() {
+    auto RotatingSink = std::make_shared<spdlog::sinks::rotating_file_sink_mt>(m_sFilePath, m_iMaxFileSize, m_iMaxLogFiles, false);
+    RotatingSink->set_level(stringToLogLevel(m_sLogLevelFile));
+    RotatingSink->set_pattern(m_sPatternFile);
+    return RotatingSink;
+}
+
+spdlog::sink_ptr SpdlogHandler::createDailyFileSink() {
+    auto dailyFileSink = std::make_shared<spdlog::sinks::daily_file_sink_mt>(m_sFilePath, 0, 0, false, m_iMaxLogFiles);
+    dailyFileSink->set_level(stringToLogLevel(m_sLogLevelFile));
+    dailyFileSink->set_pattern(m_sPatternFile);
+    return dailyFileSink;
+}
 
 spdlog::level::level_enum SpdlogHandler::stringToLogLevel(const std::string& logLevel) {
     //std::for_each(logLevel.begin(), logLevel.end(), [](char& c){c = ::tolower(c);});
