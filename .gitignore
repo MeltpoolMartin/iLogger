@@ -2,9 +2,7 @@
 *.DS_Store
 
 #Xcode
-*.pbxproj
-*.xcuserstate
-*.xcbkptlist
+src/iLogger/iLogger.xcodeproj/
 
 # Test Folder
 TestLogs/
