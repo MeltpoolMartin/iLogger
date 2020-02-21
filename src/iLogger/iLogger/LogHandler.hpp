@@ -19,5 +19,6 @@ class LogHandler
 public:
                                             LogHandler();
     std::shared_ptr<iLogger>                init();
+    void                                    createAllLogger();
     
 };

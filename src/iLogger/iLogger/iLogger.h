@@ -21,12 +21,17 @@ protected:
     std::string logMsg;
     };
 
-    std::list<LogEntry>                 m_bufferLog;
+    std::list<LogEntry>                 m_logBuffer;
     
 public:
                                         iLogger();
                                         iLogger(const std::string& loggerName) {m_sLoggerName = loggerName;};
-    virtual LogEntry                    createLogger() = 0;
+    
+    virtual void                        createLogger() = 0;
+    virtual void                        createLoggers() = 0;
+    
+    virtual void                        flushLogBuffer() = 0;
+    
     virtual void                        trace(const std::string& msg) = 0;
     virtual void                        debug(const std::string& msg) = 0;
     virtual void                        info(const std::string& msg) = 0;

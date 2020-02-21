@@ -33,6 +33,7 @@ protected:
     std::string                         m_sLogLevelFile;
     std::string                         m_sFileName;
     std::string                         m_sFileBasePath;
+    std::list<std::string>              m_sLoggerNameList;
     unsigned int                        m_iMaxLogFiles;
     unsigned long                       m_iMaxFileSize; // in byte
     std::shared_ptr<iLogger>            m_pLog;
@@ -42,7 +43,8 @@ public:
                                         SpdlogHandler(const std::string &logName, const std::string &logFileName, const std::string &logFileBasePath, const std::string &logLevelConsole, const std::string &logLevelFile, const std::string &patternConsole, const std::string &patternFile, unsigned int maxLogFiles, unsigned long maxFileSize);
                                         ~SpdlogHandler();
     
-    iLogger::LogEntry                   createLogger() override;
+    void                                createLogger() override;
+    void                                createLoggers() override;
     spdlog::sink_ptr                    createConsoleSink();
     spdlog::sink_ptr                    createDailyFileSink();
     spdlog::sink_ptr                    createRotatingFileSink();
@@ -52,13 +54,22 @@ public:
     
     std::shared_ptr<spdlog::logger>     getLogger(const std::string& loggerName);
     spdlog::level::level_enum           stringToLogLevel(const std::string& logLevel);
-    
+        
+    void                                log(spdlog::level::level_enum logLevel, const std::string& loggerName, const std::string& msg);
     void                                trace(const std::string& msg) override;
+    void                                trace(const std::string& loggerName, const std::string& msg);
     void                                debug(const std::string& msg) override;
+    void                                debug(const std::string& loggerName, const std::string& msg);
     void                                info(const std::string& msg) override;
+    void                                info(const std::string& loggerName, const std::string& msg);
     void                                warning(const std::string& msg) override;
+    void                                warning(const std::string& loggerName, const std::string& msg);
     void                                error(const std::string& msg) override;
+    void                                error(const std::string& loggerName, const std::string& msg);
     void                                critical(const std::string& msg) override;
+    void                                critical(const std::string& loggerName, const std::string& msg);
+    
+    void                                flushLogBuffer() override;
 };
 
 #endif /* Logger_hpp */

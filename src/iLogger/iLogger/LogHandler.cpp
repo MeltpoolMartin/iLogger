@@ -28,3 +28,8 @@ std::shared_ptr<iLogger> LogHandler::init() {
     return m_pLog;
 }
 
+void LogHandler::createAllLogger() { 
+    //TODO: to be implemented
+}
+
+
