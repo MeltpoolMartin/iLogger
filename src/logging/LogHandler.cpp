@@ -19,7 +19,7 @@ std::shared_ptr<iLogger> LogHandler::init() {
     std::string LogLevelConsole = "trace";
     std::string LogLevelFile = "trace";
     std::string FileName = "iLogger.txt";
-    std::string FileBasePath = "/Users/Martin/dev/iLogger/TestLogs";
+    std::string FileBasePath = "/Users/Martin/dev/iLogger/sandbox";
     unsigned int MaxLogFiles = 10;
     unsigned long MaxFileSize = 1024*1024; // 1 MiB
 
