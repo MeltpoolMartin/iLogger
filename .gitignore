@@ -1,8 +1,11 @@
 # General
 .DS_Store
 
-#Xcode
-src/iLogger/iLogger.xcodeproj/
+#CMake
+build/
+
+#Third party software
+3rdParty/
 
 # Test Folder
-TestLogs/
+sandbox/
